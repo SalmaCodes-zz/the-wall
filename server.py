@@ -24,7 +24,7 @@ def wall():
     # Get all messages
     query = "SELECT messages.id, "
     query += "  CONCAT_WS(' ', users.first_name, users.last_name) AS user_name, "
-    query += "  DATE_FORMAT(messages.created_at, '%M %D, %Y %H:%m:%s') AS time, messages.message "
+    query += "  DATE_FORMAT(messages.created_at, '%M %D, %Y %H:%i:%s') AS time, messages.message "
     query += "FROM messages "
     query += "JOIN users "
     query += "ON users.id = messages.user_id "
@@ -34,7 +34,7 @@ def wall():
     # Get all the comments
     query = "SELECT comments.message_id AS parent_id, "
     query += "  CONCAT_WS(' ', users.first_name, users.last_name) AS user_name, "
-    query += "  DATE_FORMAT(comments.created_at, '%M %D, %Y %H:%m:%s') AS time, comments.comment "
+    query += "  DATE_FORMAT(comments.created_at, '%M %D, %Y %H:%i:%s') AS time, comments.comment "
     query += "FROM comments "
     query += "JOIN messages "
     query += "ON  messages.id = comments.message_id "
