@@ -1,0 +1,66 @@
+<html>
+<head>
+  <title>The Wall</title>
+  <style>
+    .green {
+      background-color: green;
+      border: 2px solid black;
+      font-size: 1.3em;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .message {
+      border: 2px solid black;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .comments {
+      margin-left: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="green">
+    You're logged in as '{{user_info[0]['email']}}'.
+  </div>
+  <h1>Welcome {{user_info[0]['first_name']}} {{user_info[0]['last_name']}}!</h1>
+  <a href="/">Log off</a>
+
+  <h3>Post a message</h3>
+  <form action='/post' method='POST'>
+    <input type="hidden" name="type" value="message">
+    <textarea name="text"></textarea>
+    <input type="submit" value="Post a message">
+  </form>
+  {% for message in all_messages: %}
+  <div class="message">
+    <h4 class="header">
+      {{message.user_name}} - {{message.time}}
+    </h4>
+    <p>
+      {{message.message}}
+    </p>
+    <div class="comments">
+      {% for comment in all_comments: %}
+        {% if message.id == comment.parent_id %}
+        <div class="message">
+        <h4 class="header">
+          {{comment.user_name}} - {{comment.time}}
+        </h4>
+        <p>
+          {{comment.comment}}
+        </p>
+        </div>
+        {% endif %}
+      {% endfor %}
+      <form action='/post' method='POST'>
+        <input type="hidden" name="type" value="comment">
+        <input type="hidden" name="parent" value="{{message.id}}">
+        <textarea name="text"></textarea>
+        <input type="submit" value="Post a comment">
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</body>
+</html>
